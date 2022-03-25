@@ -5,12 +5,14 @@ let box = document.querySelectorAll(".game > *");
 btn1.onclick = function () {
   if (btn1.textContent == "Start") {
     btn1.textContent = "End";
+    btn1.style.backgroundColor = "#8a8072";
     document.querySelector(".gameBox").style.height = "400px";
     document.querySelector(".game").style.height = "300px";
+    document.querySelector(".game").style.opacity = 1;
     for (let i = 0; i < box.length; i++) {
       box[i].style.display = "flex";
     }
-    btn1.style.boxShadow = "2px 2px 2px black";
+    btn1.style.boxShadow = "2px 2px 2px #534837";
 
     document.querySelector(".finished").style.display = "none";
     document.querySelector(".Congratulations").style.display = "none";
@@ -28,7 +30,7 @@ btn1.onclick = function () {
     }
     box[8].setAttribute("id", "empty");
 
-    //to cheat
+    // to cheat
 
     // for (let i = 0; i < box.length - 1; i++) {
     //   nums[i] = i + 1;
@@ -47,10 +49,12 @@ btn1.onclick = function () {
     console.log("***********************reset***************************");
     for (let j = 0; j < box.length; j++) {
       if (getIndexGenerally(box[j]) === +box[j].id - 1) {
-        box[j].style.backgroundColor = "gray";
-      } else box[j].style.backgroundColor = "lightgray";
-      if (box[j].id !== "empty") {
-      } else box[j].style.backgroundColor = "inherit";
+        box[j].style.color = "gold";
+        box[j].style.textShadow = "0px 0px 5px gold";
+      } else {
+        box[j].style.color = "black";
+        box[j].style.textShadow = "0px 0px 15px black";
+      }
     }
   } else if (btn1.textContent == "End") {
     btn1.textContent = "Start";
@@ -59,6 +63,8 @@ btn1.onclick = function () {
       box[i].style.display = "none";
     }
     btn1.style.boxShadow = "none";
+    btn1.style.backgroundColor = "#a38b69";
+    document.querySelector(".game").style.opacity = .5;
     document.querySelector(".Congratulations").textContent = "Play again";
   }
 };
@@ -169,11 +175,14 @@ for (let i = 0; i < box.length; i++) {
 
     for (let j = 0; j < box.length; j++) {
       if (getIndexGenerally(box[j]) === +box[j].id - 1) {
-        box[j].style.backgroundColor = "gray";
-      } else box[j].style.backgroundColor = "lightgray";
-      if (box[j].id !== "empty") {
-      } else box[j].style.backgroundColor = "inherit";
+        box[j].style.color = "gold";
+        box[j].style.textShadow = "0px 0px 5px gold";
+      } else {
+        box[j].style.color = "black";
+        box[j].style.textShadow = "0px 0px 15px black";
+      }
     }
+
     if (gameFinished()) {
       document.querySelector(".finished").style.display = "block";
       document.querySelector(".Congratulations").style.display = "block";

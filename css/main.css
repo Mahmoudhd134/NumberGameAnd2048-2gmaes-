@@ -1,7 +1,7 @@
 * {
   margin: 0px;
 }
-
+/* #d19644 */
 .gameBox {
   width: 310px;
   height: 120px;
@@ -13,12 +13,14 @@
   display: flex;
   flex-direction: column;
   border-radius: 30px;
+  background-color: #979187;
   /* transition: 3s; */
 }
 .gameBox h2{
   position: absolute;
   top: 15px;
-  left: 79px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 #startgame {
   width: 100px;
@@ -28,6 +30,7 @@
   border-radius: 10px;
   position: absolute;
   top: 50px;
+  background-color: #a38b69;
 }
 #startgame:hover {
   cursor: pointer;
@@ -46,6 +49,7 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 20px;
+  background-color: #8d6833;
   /* transition: 3s; */
 }
 
@@ -58,8 +62,7 @@
   justify-content: center;
   align-items: center;
   font-size: 2.5em;
-  text-shadow: 0px 0px 15px black;
-  background-color: lightgray;
+  background-color: #be8e4b;
   /* transition: 3s; */
 }
 
@@ -95,15 +98,16 @@
 @media (max-width: 520px) {
   .gameBox {
     width: 280px;
-    height: 380px;
+  }
+  .gameBox > h2{
+    top: 0;
+    transform: translateX(-27%);
   }
   .game {
     width: 270px;
-    height: 280px;
   }
   .game > div {
     width: 80px;
-    height: 80px;
   }
   .finished {
     width: 270px;
