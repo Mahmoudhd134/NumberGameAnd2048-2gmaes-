@@ -1,0 +1,114 @@
+* {
+  margin: 0px;
+}
+
+.gameBox {
+  width: 310px;
+  height: 120px;
+  border: 2px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  /* transition: 3s; */
+}
+.gameBox h2{
+  position: absolute;
+  top: 15px;
+  left: 79px;
+}
+#startgame {
+  width: 100px;
+  height: calc(350px - 300px - 20px);
+  align-self: center;
+  transform: translatey(10px);
+  border-radius: 10px;
+  position: absolute;
+  top: 50px;
+}
+#startgame:hover {
+  cursor: pointer;
+}
+.game {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translatex(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  border: 2px solid black;
+  width: 300px;
+  height: 20px;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 20px;
+  /* transition: 3s; */
+}
+
+.game > div {
+  display: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 90px;
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;
+  text-shadow: 0px 0px 15px black;
+  background-color: lightgray;
+  /* transition: 3s; */
+}
+
+#empty {
+  border: none;
+  background-color: inherit;
+}
+
+.game > :not([id="empty"]) {
+  cursor: pointer;
+}
+
+.finished {
+  display: none;
+  background-color: gold;
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translatex(-50%);
+  width: 300px;
+  height: 300px;
+  opacity: 0.5;
+  border-radius: 20px;
+}
+.Congratulations {
+  display: none;
+  font-size: 2.5em;
+  position: absolute;
+  top: 162px;
+  left: 69px;
+}
+
+@media (max-width: 520px) {
+  .gameBox {
+    width: 280px;
+    height: 380px;
+  }
+  .game {
+    width: 270px;
+    height: 280px;
+  }
+  .game > div {
+    width: 80px;
+    height: 80px;
+  }
+  .finished {
+    width: 270px;
+  }
+  .Congratulations {
+    left: 54px;
+  }
+}
