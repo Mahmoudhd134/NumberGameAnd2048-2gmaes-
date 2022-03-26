@@ -5,7 +5,8 @@
 .container {
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px,auto));
+  /* grid-template-columns: repeat(auto-fill, minmax(360px,auto)); */
+  grid-template-columns: repeat(1, minmax(360px,auto));
   gap: 50px;
   /* justify-content: center; */
 }
