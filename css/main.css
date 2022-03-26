@@ -26,7 +26,7 @@
   flex-direction: column;
   border-radius: 30px;
   background-color: #979187;
-  margin: 0px auto;
+  /* margin: 0px auto; */
   /* transition: 3s; */
 }
 .gameBox h2 {
@@ -215,6 +215,9 @@ button:hover {
   #game2048{
     width: 310px;
   }
+  #game2048 > h2{
+    transform: translateX(-55%);
+  }
   #game2048items{
     width: 300px;
   }
@@ -223,5 +226,9 @@ button:hover {
   }
   #gameover2048{
     width: 300px;
+  }
+  #reset2048{
+    top: 38px;
+    left: 50px;
   }
 }
