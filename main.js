@@ -195,6 +195,7 @@ for (let i = 0; i < box.length; i++) {
 let box2048 = document.querySelectorAll("#game2048items > *");
 
 let btn2 = document.getElementById("reset2048");
+
 btn2.onclick = function () {
   btn2.textContent = "reset";
   for (let i = 0; i < box2048.length; i++) {
@@ -234,10 +235,6 @@ let colorsSheet2048 = {
   2048: { color: "#f9f6f2", backgroundColor: "#edc22e" },
 };
 
-// box2048[5].textContent = 2;
-// console.log(box2048[5]);
-// console.log(colorsSheet2048[box2048[5].textContent]["Color"]);
-
 function changeBackgrounColor2048() {
   for (let i = 0; i < box2048.length; i++) {
     if (box2048[i].textContent === "") {
@@ -251,22 +248,46 @@ function changeBackgrounColor2048() {
 }
 
 function gameOver() {
-  for (let i = 0; i < box2048.length; i++) {
-    if (indexs["top"]["start"].some((el) => el === i)) {
-      if (canMeregeToBottom(i)) return false;
-    } else if (indexs["right"]["start"].some((el) => el === i)) {
-      if (canMeregeToLeft(i)) return false;
-    } else if (indexs["bottom"]["start"].some((el) => el === i)) {
-      if (canMeregeToTop(i)) return false;
-    } else if (indexs["left"]["start"].some((el) => el === i)) {
-      if (canMeregeToRight(i)) return false;
-    } else {
-      if (canMeregeToBottom(i)) return false;
-      else if (canMeregeToBottom(i)) return false;
-      else if (canMeregeToBottom(i)) return false;
-      else if (canMeregeToBottom(i)) return false;
+  for (
+    let i = indexs["top"]["start"][0];
+    i < indexs["top"]["start"][3] + 1;
+    i++
+  ) {
+    for (let j = i; indexs["top"]["end"].every((el) => el > j); j += 4) {
+      if (canMeregeToBottom(j)) return false;
     }
   }
+
+  for (
+    let i = indexs["right"]["start"][0];
+    i < indexs["right"]["start"][3] + 1;
+    i += 4
+  ) {
+    for (let j = i; !indexs["right"]["end"].some((el) => el === j); j--) {
+      if (canMeregeToLeft(j)) return false;
+    }
+  }
+
+  for (
+    let i = indexs["bottom"]["start"][0];
+    i < indexs["bottom"]["start"][3] + 1;
+    i++
+  ) {
+    for (let j = i; !indexs["bottom"]["end"].some((el) => el === j); j -= 4) {
+      if (canMeregeToTop(j)) return false;
+    }
+  }
+
+  for (
+    let i = indexs["left"]["start"][0];
+    i < indexs["left"]["start"][3] + 1;
+    i += 4
+  ) {
+    for (let j = i; !indexs["left"]["end"].some((el) => el === j); j++) {
+      if (canMeregeToRight(j)) return false;
+    }
+  }
+
   return true;
 }
 
@@ -286,7 +307,7 @@ function insertBox2048() {
 }
 function canMeregeToTop(position) {
   let upperPosition = position - 4;
-  if (upperPosition < 0) return "null";
+  if (upperPosition < 0) return false;
   if (box2048[position].textContent === "") return false;
   if (box2048[position].textContent === box2048[upperPosition].textContent)
     return true;
@@ -294,7 +315,7 @@ function canMeregeToTop(position) {
 }
 function canMeregeToRight(position) {
   let righterPosition = position + 1;
-  if (righterPosition < 0) return "null";
+  if (righterPosition < 0) return false;
   if (box2048[position].textContent === "") return false;
   if (box2048[position].textContent === box2048[righterPosition].textContent)
     return true;
@@ -302,7 +323,7 @@ function canMeregeToRight(position) {
 }
 function canMeregeToBottom(position) {
   let bottomerPosition = position + 4;
-  if (bottomerPosition < 0) return "null";
+  if (bottomerPosition < 0) return false;
   if (box2048[position].textContent === "") return false;
   if (box2048[position].textContent === box2048[bottomerPosition].textContent)
     return true;
@@ -310,7 +331,7 @@ function canMeregeToBottom(position) {
 }
 function canMeregeToLeft(position) {
   let lefterPosition = position - 1;
-  if (lefterPosition < 0) return "null";
+  if (lefterPosition < 0) return false;
   if (box2048[position].textContent === "") return false;
   if (box2048[position].textContent === box2048[lefterPosition].textContent)
     return true;
