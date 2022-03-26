@@ -8,22 +8,54 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
-    <div class="gameBox">
-      <h2>Number game</h2>
-      <button id="startgame">Start</button>
-      <div class="game">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div class="container">
+      <div id="numbergame" class="gameBox">
+        <h2>Number game</h2>
+        <button id="startgame">Start</button>
+        <div id="numbergameitems" class="game">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="finished"></div>
+        <div class="Congratulations"></div>
       </div>
-      <div class="finished"></div>
-      <div class="Congratulations"></div>
+
+      <div id="game2048" class="gameBox">
+        <div class="directions centerItemsInside">
+          <div class="north"></div>
+          <div class="east"></div>
+          <div class="south"></div>
+          <div class="west"></div>
+        </div>
+        <h2>2048</h2>
+        <button id="reset2048">Start</button>
+        <div id="gameover2048" class="game centerItemsInside">GameOver... (__)</div>
+        <div id="game2048items" class="game">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
     </div>
     <script src="main.js"></script>
   </body>

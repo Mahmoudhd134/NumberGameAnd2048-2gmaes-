@@ -1,16 +1,20 @@
+//start number game
+
 let btn1 = document.getElementById("startgame");
 
-let box = document.querySelectorAll(".game > *");
+let box = document.querySelectorAll("#numbergameitems > *");
 
 btn1.onclick = function () {
   if (btn1.textContent == "Start") {
     btn1.textContent = "End";
     btn1.style.backgroundColor = "#8a8072";
-    document.querySelector(".gameBox").style.height = "400px";
-    document.querySelector(".game").style.height = "300px";
-    document.querySelector(".game").style.opacity = 1;
+    document.getElementById("numbergame").style.height = "400px";
+    document.getElementById("numbergameitems").style.height = "300px";
+    document.getElementById("numbergameitems").style.opacity = 1;
+    document.getElementById("numbergameitems").style.display = "grid";
     for (let i = 0; i < box.length; i++) {
       box[i].style.display = "flex";
+      box[i].className = "centerItemsInside";
     }
     btn1.style.boxShadow = "2px 2px 2px #534837";
 
@@ -64,17 +68,10 @@ btn1.onclick = function () {
     }
     btn1.style.boxShadow = "none";
     btn1.style.backgroundColor = "#a38b69";
-    document.querySelector(".game").style.opacity = .5;
+    document.getElementById("numbergameitems").style.opacity = 0.5;
     document.querySelector(".Congratulations").textContent = "Play again";
   }
 };
-
-function getIndexForNumberGameOnly(ele) {
-  let c = document.querySelectorAll(".game > *");
-  for (let i = 0; i < c.length; i++) {
-    if (c[i] === ele) return i;
-  }
-}
 
 function getIndexGenerally(elm) {
   let c = elm.parentNode.children;
@@ -190,3 +187,389 @@ for (let i = 0; i < box.length; i++) {
     }
   };
 }
+
+//end number game
+
+//start 2048 game
+
+let box2048 = document.querySelectorAll("#game2048items > *");
+
+let btn2 = document.getElementById("reset2048");
+btn2.onclick = function () {
+  btn2.textContent = "reset";
+  for (let i = 0; i < box2048.length; i++) {
+    box2048[i].textContent = "";
+    box2048[i].className = "centerItemsInside";
+  }
+  document.querySelector("#game2048").style.height = "470px";
+  document.getElementById("game2048items").style.height = "340px";
+  document.querySelector("#game2048items").style.display = "grid";
+  document.querySelector(".directions").style.display = "grid";
+  document.getElementById("gameover2048").style.display = "none";
+  box2048[0].style.borderTopLeftRadius = "30px";
+  box2048[3].style.borderTopRightRadius = "30px";
+  box2048[12].style.borderBottomLeftRadius = "30px";
+  box2048[15].style.borderBottomRightRadius = "30px";
+  insertBox2048();
+};
+
+let indexs = {
+  top: { start: [0, 1, 2, 3], end: [12, 13, 14, 15] },
+  right: { start: [3, 7, 11, 15], end: [0, 4, 8, 12] },
+  bottom: { start: [12, 13, 14, 15], end: [0, 1, 2, 3] },
+  left: { start: [0, 4, 8, 12], end: [3, 7, 11, 15] },
+};
+
+let colorsSheet2048 = {
+  2: { color: "#776e65", backgroundColor: "#eee4da" },
+  4: { color: "#776e65", backgroundColor: "#ede0c8" },
+  8: { color: "#f9f6f2", backgroundColor: "#f2b179" },
+  16: { color: "#f9f6f2", backgroundColor: "#f59563" },
+  32: { color: "#f9f6f2", backgroundColor: "#f67c5f" },
+  64: { color: "#f9f6f2", backgroundColor: "#f65e3b" },
+  128: { color: "#f9f6f2", backgroundColor: "#edcf72" },
+  256: { color: "#f9f6f2", backgroundColor: "#edcc61" },
+  512: { color: "#f9f6f2", backgroundColor: "#edc850" },
+  1024: { color: "#f9f6f2", backgroundColor: "#edc53f" },
+  2048: { color: "#f9f6f2", backgroundColor: "#edc22e" },
+};
+
+// box2048[5].textContent = 2;
+// console.log(box2048[5]);
+// console.log(colorsSheet2048[box2048[5].textContent]["Color"]);
+
+function changeBackgrounColor2048() {
+  for (let i = 0; i < box2048.length; i++) {
+    if (box2048[i].textContent === "") {
+      box2048[i].style.backgroundColor = "#ccc0b3";
+    } else {
+      box2048[i].style.color = colorsSheet2048[box2048[i].textContent]["color"];
+      box2048[i].style.backgroundColor =
+        colorsSheet2048[box2048[i].textContent]["backgroundColor"];
+    }
+  }
+}
+
+function gameOver() {
+  for (let i = 0; i < box2048.length; i++) {
+    if (indexs["top"]["start"].some((el) => el === i)) {
+      if (canMeregeToBottom(i)) return false;
+    } else if (indexs["right"]["start"].some((el) => el === i)) {
+      if (canMeregeToLeft(i)) return false;
+    } else if (indexs["bottom"]["start"].some((el) => el === i)) {
+      if (canMeregeToTop(i)) return false;
+    } else if (indexs["left"]["start"].some((el) => el === i)) {
+      if (canMeregeToRight(i)) return false;
+    } else {
+      if (canMeregeToBottom(i)) return false;
+      else if (canMeregeToBottom(i)) return false;
+      else if (canMeregeToBottom(i)) return false;
+      else if (canMeregeToBottom(i)) return false;
+    }
+  }
+  return true;
+}
+
+function insertBox2048() {
+  setTimeout(function () {
+    let randomIndex1 = Math.floor(Math.random() * 16);
+    let randomNumber = Math.floor(Math.random() * 2 + 2);
+    if (randomNumber === 3) randomNumber = 4;
+    while (true) {
+      if (box2048[randomIndex1].textContent === "") {
+        box2048[randomIndex1].textContent = randomNumber;
+        break;
+      } else randomIndex1 = Math.floor(Math.random() * 16);
+    }
+    changeBackgrounColor2048();
+  }, 100);
+}
+function canMeregeToTop(position) {
+  let upperPosition = position - 4;
+  if (upperPosition < 0) return "null";
+  if (box2048[position].textContent === "") return false;
+  if (box2048[position].textContent === box2048[upperPosition].textContent)
+    return true;
+  else return false;
+}
+function canMeregeToRight(position) {
+  let righterPosition = position + 1;
+  if (righterPosition < 0) return "null";
+  if (box2048[position].textContent === "") return false;
+  if (box2048[position].textContent === box2048[righterPosition].textContent)
+    return true;
+  else return false;
+}
+function canMeregeToBottom(position) {
+  let bottomerPosition = position + 4;
+  if (bottomerPosition < 0) return "null";
+  if (box2048[position].textContent === "") return false;
+  if (box2048[position].textContent === box2048[bottomerPosition].textContent)
+    return true;
+  else return false;
+}
+function canMeregeToLeft(position) {
+  let lefterPosition = position - 1;
+  if (lefterPosition < 0) return "null";
+  if (box2048[position].textContent === "") return false;
+  if (box2048[position].textContent === box2048[lefterPosition].textContent)
+    return true;
+  else return false;
+}
+
+function moveEmptyBoxsToBottom(ins) {
+  if (indexs["top"]["start"].some((el) => el === ins)) return 0;
+  if (indexs["top"]["end"].every((el) => el < ins)) return 0;
+
+  if (box2048[ins - 4].textContent === "" && box2048[ins].textContent !== "") {
+    swapItemes2048(box2048[ins], box2048[ins - 4]);
+    moveEmptyBoxsToBottom(ins - 4);
+  }
+  moveEmptyBoxsToBottom(ins + 4);
+}
+
+function moveEmptyBoxsToLeft(ins) {
+  if (indexs["right"]["start"].some((el) => el === ins)) return 0;
+  if (indexs["right"]["end"].some((el) => el - 1 === ins)) return 0;
+
+  if (box2048[ins + 1].textContent === "" && box2048[ins].textContent !== "") {
+    swapItemes2048(box2048[ins], box2048[ins + 1]);
+    moveEmptyBoxsToLeft(ins + 1);
+  }
+  moveEmptyBoxsToLeft(ins - 1);
+}
+
+function moveEmptyBoxsToTop(ins) {
+  if (indexs["bottom"]["start"].some((el) => el === ins)) return 0;
+  if (indexs["bottom"]["end"].every((el) => el > ins)) return 0;
+
+  if (box2048[ins + 4].textContent === "" && box2048[ins].textContent !== "") {
+    swapItemes2048(box2048[ins + 4], box2048[ins]);
+    moveEmptyBoxsToTop(ins + 4);
+  }
+  moveEmptyBoxsToTop(ins - 4);
+}
+
+function moveEmptyBoxsToRight(ins) {
+  if (indexs["left"]["start"].some((el) => el === ins)) return 0;
+  if (indexs["left"]["end"].some((el) => el + 1 === ins)) return 0;
+
+  if (box2048[ins - 1].textContent === "" && box2048[ins].textContent !== "") {
+    swapItemes2048(box2048[ins], box2048[ins - 1]);
+    moveEmptyBoxsToRight(ins - 1);
+  }
+  moveEmptyBoxsToRight(ins + 1);
+}
+
+function swapItemes2048(ele1, ele2) {
+  [ele1.textContent, ele2.textContent] = [ele2.textContent, ele1.textContent];
+}
+
+function merge(ins1, ins2) {
+  box2048[ins1].textContent = +box2048[ins1].textContent * 2;
+  box2048[ins2].textContent = "";
+}
+
+let ob1 = {
+  0: "",
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  5: "",
+  6: "",
+  7: "",
+  8: "",
+  9: "",
+  10: "",
+  11: "",
+  12: "",
+  13: "",
+  14: "",
+  15: "",
+};
+let ob2 = {
+  0: "",
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  5: "",
+  6: "",
+  7: "",
+  8: "",
+  9: "",
+  10: "",
+  11: "",
+  12: "",
+  13: "",
+  14: "",
+  15: "",
+};
+function isTwoObjectsIdenticals(ob1, ob2) {
+  for (let i = 0; i < box2048.length; i++) {
+    if (ob1[i] !== ob2[i]) return false;
+  }
+  return true;
+}
+function fillObject(ob) {
+  for (let i = 0; i < box2048.length; i++) {
+    ob[i] = box2048[i].textContent;
+  }
+}
+function isThereEmptyPlace(ob) {
+  for (let i = 0; i < box2048.length; i++) {
+    if (ob[i] === "") return true;
+  }
+  return false;
+}
+
+document.querySelector(".north").onclick = function () {
+  fillObject(ob1);
+  for (
+    let j = indexs["top"]["start"][0] + 4;
+    j < indexs["top"]["start"][3] + 5;
+    j++
+  ) {
+    moveEmptyBoxsToBottom(j);
+  }
+
+  for (
+    let i = indexs["top"]["start"][0];
+    i < indexs["top"]["start"][3] + 1;
+    i++
+  ) {
+    for (let j = i; indexs["top"]["end"].every((el) => el > j); j += 4) {
+      if (canMeregeToBottom(j)) merge(j, j + 4);
+    }
+  }
+  for (
+    let j = indexs["top"]["start"][0] + 4;
+    j < indexs["top"]["start"][3] + 5;
+    j++
+  ) {
+    moveEmptyBoxsToBottom(j);
+  }
+  fillObject(ob2);
+  if (!isTwoObjectsIdenticals(ob1, ob2)) {
+    // console.log(ob1, ob2);
+    if (isThereEmptyPlace(ob2)) insertBox2048();
+  }
+  if (!isThereEmptyPlace(ob2)) {
+    console.log("!isThereEmptyPlace(ob2)");
+    if (gameOver())
+      document.getElementById("gameover2048").style.display = "flex";
+  }
+  changeBackgrounColor2048();
+};
+document.querySelector(".east").onclick = function () {
+  fillObject(ob1);
+  for (
+    let j = indexs["right"]["start"][0] - 1;
+    j < indexs["right"]["end"][3] + 3;
+    j += 4
+  ) {
+    moveEmptyBoxsToLeft(j);
+  }
+  for (
+    let i = indexs["right"]["start"][0];
+    i < indexs["right"]["start"][3] + 1;
+    i += 4
+  ) {
+    for (let j = i; !indexs["right"]["end"].some((el) => el === j); j--) {
+      if (canMeregeToLeft(j)) merge(j, j - 1);
+    }
+  }
+  for (
+    let j = indexs["right"]["start"][0] - 1;
+    j < indexs["right"]["end"][3] + 3;
+    j += 4
+  ) {
+    moveEmptyBoxsToLeft(j);
+  }
+  fillObject(ob2);
+  if (!isTwoObjectsIdenticals(ob1, ob2)) {
+    // console.log(ob1, ob2);
+    if (isThereEmptyPlace(ob2)) insertBox2048();
+  }
+  if (!isThereEmptyPlace(ob2)) {
+    console.log("!isThereEmptyPlace(ob2)");
+    if (gameOver())
+      document.getElementById("gameover2048").style.display = "flex";
+  }
+  changeBackgrounColor2048();
+};
+document.querySelector(".south").onclick = function () {
+  fillObject(ob1);
+  for (
+    let j = indexs["bottom"]["start"][3] - 4;
+    j > indexs["bottom"]["start"][0] - 5;
+    j--
+  ) {
+    moveEmptyBoxsToTop(j);
+  }
+  for (
+    let i = indexs["bottom"]["start"][0];
+    i < indexs["bottom"]["start"][3] + 1;
+    i++
+  ) {
+    for (let j = i; !indexs["bottom"]["end"].some((el) => el === j); j -= 4) {
+      if (canMeregeToTop(j)) merge(j, j - 4);
+    }
+  }
+  for (
+    let j = indexs["bottom"]["start"][3] - 4;
+    j > indexs["bottom"]["start"][0] - 5;
+    j--
+  ) {
+    moveEmptyBoxsToTop(j);
+  }
+  fillObject(ob2);
+  if (!isTwoObjectsIdenticals(ob1, ob2)) {
+    // console.log(ob1, ob2);
+    if (isThereEmptyPlace(ob2)) insertBox2048();
+  }
+  if (!isThereEmptyPlace(ob2)) {
+    console.log("!isThereEmptyPlace(ob2)");
+    if (gameOver())
+      document.getElementById("gameover2048").style.display = "flex";
+  }
+  changeBackgrounColor2048();
+};
+document.querySelector(".west").onclick = function () {
+  fillObject(ob1);
+  for (
+    let j = indexs["left"]["start"][0] + 1;
+    j < indexs["left"]["start"][3] + 2;
+    j += 4
+  ) {
+    moveEmptyBoxsToRight(j);
+  }
+  for (
+    let i = indexs["left"]["start"][0];
+    i < indexs["left"]["start"][3] + 1;
+    i += 4
+  ) {
+    for (let j = i; !indexs["left"]["end"].some((el) => el === j); j++) {
+      if (canMeregeToRight(j)) merge(j, j + 1);
+    }
+  }
+  for (
+    let j = indexs["left"]["start"][0] + 1;
+    j < indexs["left"]["start"][3] + 2;
+    j += 4
+  ) {
+    moveEmptyBoxsToRight(j);
+  }
+  fillObject(ob2);
+  if (!isTwoObjectsIdenticals(ob1, ob2)) {
+    // console.log(ob1, ob2);
+    if (isThereEmptyPlace(ob2)) insertBox2048();
+  }
+  if (!isThereEmptyPlace(ob2)) {
+    console.log("!isThereEmptyPlace(ob2)");
+    if (gameOver())
+      document.getElementById("gameover2048").style.display = "flex";
+  }
+  changeBackgrounColor2048();
+};
