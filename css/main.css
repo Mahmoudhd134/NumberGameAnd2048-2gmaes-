@@ -1,7 +1,11 @@
+*{
+  margin: 0px;
+}
 .container {
   display: grid;
-  grid-template-columns: repeat(fill-auto, auto);
+  grid-template-columns: repeat(auto-fill, minmax(360px,auto));
   gap: 50px;
+  /* justify-content: center; */
 }
 .centerItemsInside {
   display: flex;
@@ -22,6 +26,7 @@
   flex-direction: column;
   border-radius: 30px;
   background-color: #979187;
+  margin: 0px auto;
   /* transition: 3s; */
 }
 .gameBox h2 {
@@ -190,7 +195,6 @@ button:hover {
   gap: 0px;
 }
 #game2048items > div {
-  /* margin: 0px auto; */
   width: 80px;
   height: 80px;
   background-color: #ccc0b3;
@@ -206,4 +210,18 @@ button:hover {
   top: 26%;
   left: 50%;
   font-size: 2.5em;
+}
+@media (max-width:520px){
+  #game2048{
+    width: 310px;
+  }
+  #game2048items{
+    width: 300px;
+  }
+  #game2048items > div {
+    width: 70px;
+  }
+  #gameover2048{
+    width: 300px;
+  }
 }
