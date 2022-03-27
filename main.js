@@ -234,7 +234,6 @@ let colorsSheet2048 = {
   1024: { color: "#f9f6f2", backgroundColor: "#edc53f" },
   2048: { color: "#f9f6f2", backgroundColor: "#edc22e" },
 };
-
 function changeBackgrounColor2048() {
   for (let i = 0; i < box2048.length; i++) {
     if (box2048[i].textContent === "") {
@@ -305,6 +304,7 @@ function insertBox2048() {
     changeBackgrounColor2048();
   }, 100);
 }
+
 function canMeregeToTop(position) {
   let upperPosition = position - 4;
   if (upperPosition < 0) return false;
@@ -348,7 +348,6 @@ function moveEmptyBoxsToBottom(ins) {
   }
   moveEmptyBoxsToBottom(ins + 4);
 }
-
 function moveEmptyBoxsToLeft(ins) {
   if (indexs["right"]["start"].some((el) => el === ins)) return 0;
   if (indexs["right"]["end"].some((el) => el - 1 === ins)) return 0;
@@ -359,7 +358,6 @@ function moveEmptyBoxsToLeft(ins) {
   }
   moveEmptyBoxsToLeft(ins - 1);
 }
-
 function moveEmptyBoxsToTop(ins) {
   if (indexs["bottom"]["start"].some((el) => el === ins)) return 0;
   if (indexs["bottom"]["end"].every((el) => el > ins)) return 0;
@@ -370,7 +368,6 @@ function moveEmptyBoxsToTop(ins) {
   }
   moveEmptyBoxsToTop(ins - 4);
 }
-
 function moveEmptyBoxsToRight(ins) {
   if (indexs["left"]["start"].some((el) => el === ins)) return 0;
   if (indexs["left"]["end"].some((el) => el + 1 === ins)) return 0;
@@ -427,22 +424,56 @@ let ob2 = {
   14: "",
   15: "",
 };
+let ob3 = {
+  0: "",
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  5: "",
+  6: "",
+  7: "",
+  8: "",
+  9: "",
+  10: "",
+  11: "",
+  12: "",
+  13: "",
+  14: "",
+  15: "",
+};
+
 function isTwoObjectsIdenticals(ob1, ob2) {
   for (let i = 0; i < box2048.length; i++) {
     if (ob1[i] !== ob2[i]) return false;
   }
   return true;
 }
+
 function fillObject(ob) {
   for (let i = 0; i < box2048.length; i++) {
     ob[i] = box2048[i].textContent;
   }
 }
+
 function isThereEmptyPlace(ob) {
   for (let i = 0; i < box2048.length; i++) {
     if (ob[i] === "") return true;
   }
   return false;
+}
+
+function apllyObject(ob) {
+  for (let i = 0; i < box2048.length; i++) {
+    box2048[i].textContent = ob[i];
+  }
+  changeBackgrounColor2048();
+}
+
+function equalTwoObjects(ob1, ob2) {
+  for (let i = 0; i < box2048.length; i++) {
+    ob2[i] = ob1[i];
+  }
 }
 
 document.querySelector(".north").onclick = function () {
@@ -473,7 +504,7 @@ document.querySelector(".north").onclick = function () {
   }
   fillObject(ob2);
   if (!isTwoObjectsIdenticals(ob1, ob2)) {
-    // console.log(ob1, ob2);
+    equalTwoObjects(ob1, ob3);
     if (isThereEmptyPlace(ob2)) insertBox2048();
   }
   if (!isThereEmptyPlace(ob2)) {
@@ -510,7 +541,7 @@ document.querySelector(".east").onclick = function () {
   }
   fillObject(ob2);
   if (!isTwoObjectsIdenticals(ob1, ob2)) {
-    // console.log(ob1, ob2);
+    equalTwoObjects(ob1, ob3);
     if (isThereEmptyPlace(ob2)) insertBox2048();
   }
   if (!isThereEmptyPlace(ob2)) {
@@ -547,7 +578,7 @@ document.querySelector(".south").onclick = function () {
   }
   fillObject(ob2);
   if (!isTwoObjectsIdenticals(ob1, ob2)) {
-    // console.log(ob1, ob2);
+    equalTwoObjects(ob1, ob3);
     if (isThereEmptyPlace(ob2)) insertBox2048();
   }
   if (!isThereEmptyPlace(ob2)) {
@@ -584,7 +615,7 @@ document.querySelector(".west").onclick = function () {
   }
   fillObject(ob2);
   if (!isTwoObjectsIdenticals(ob1, ob2)) {
-    // console.log(ob1, ob2);
+    equalTwoObjects(ob1, ob3);
     if (isThereEmptyPlace(ob2)) insertBox2048();
   }
   if (!isThereEmptyPlace(ob2)) {
@@ -593,4 +624,9 @@ document.querySelector(".west").onclick = function () {
       document.getElementById("gameover2048").style.display = "flex";
   }
   changeBackgrounColor2048();
+};
+
+let btn3 = document.getElementById("returnstep2048");
+btn3.onclick = function () {
+  apllyObject(ob3);
 };
