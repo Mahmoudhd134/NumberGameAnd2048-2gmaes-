@@ -629,4 +629,10 @@ document.querySelector(".west").onclick = function () {
 let btn3 = document.getElementById("returnstep2048");
 btn3.onclick = function () {
   apllyObject(ob3);
+  if (!isThereEmptyPlace(ob3)) {
+    if (!gameOver())
+      document.getElementById("gameover2048").style.display = "none";
+  }
 };
+
+//end 2048 game
