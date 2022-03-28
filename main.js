@@ -1,3 +1,13 @@
+let gameBads = Array.from(document.querySelectorAll(".game"));
+gameBads.forEach((gamebad) => {
+  gamebad.addEventListener("touchmove", (event) => {
+    event.preventDefault();
+  });
+  gamebad.addEventListener("mousemove", (event) => {
+    event.preventDefault();
+  });
+});
+
 //start number game
 
 let btn1 = document.getElementById("startgame");
@@ -116,76 +126,92 @@ function swabBoxs(ele1, ele2) {
 }
 
 for (let i = 0; i < box.length; i++) {
-  box[i].onclick = () => {
-    let embtyBoxPosition = getIndexGenerally(document.getElementById("empty"));
-    let position = getIndexGenerally(box[i]);
+  //Touch
+  box[i].addEventListener("touchstart", (event) => {
+    makeActionNuberGame(i);
+  });
+  box[i].addEventListener("touchend", (event) => {
+    makeActionNuberGame(i);
+  });
+  box[i].addEventListener("touchmove", (event) => {
+    makeActionNuberGame(i);
+  });
 
-    if (canSwapOne[embtyBoxPosition].some((el) => el === position)) {
-      swabBoxs(box[i], box[embtyBoxPosition]);
-    } else if (canSwapTwo[embtyBoxPosition].some((el) => el === position)) {
+  //mouse
+  box[i].addEventListener("mousedown", (event) => {
+    makeActionNuberGame(i);
+  });
+}
+
+function makeActionNuberGame(i) {
+  let embtyBoxPosition = getIndexGenerally(document.getElementById("empty"));
+  let position = getIndexGenerally(box[i]);
+
+  if (canSwapOne[embtyBoxPosition].some((el) => el === position)) {
+    swabBoxs(box[i], box[embtyBoxPosition]);
+  } else if (canSwapTwo[embtyBoxPosition].some((el) => el === position)) {
+    if (
+      embtyBoxPosition === 1 ||
+      embtyBoxPosition === 3 ||
+      embtyBoxPosition === 5 ||
+      embtyBoxPosition === 7
+    ) {
+      swabBoxs(box[4], box[embtyBoxPosition]);
+      swabBoxs(box[i], box[4]);
+    } else if (
+      embtyBoxPosition === 0 ||
+      embtyBoxPosition === 2 ||
+      embtyBoxPosition === 6 ||
+      embtyBoxPosition === 8
+    ) {
       if (
-        embtyBoxPosition === 1 ||
-        embtyBoxPosition === 3 ||
-        embtyBoxPosition === 5 ||
-        embtyBoxPosition === 7
+        (position === 0 || position === 2) &&
+        (embtyBoxPosition === 0 || embtyBoxPosition === 2)
       ) {
-        swabBoxs(box[4], box[embtyBoxPosition]);
-        swabBoxs(box[i], box[4]);
+        swabBoxs(box[1], box[embtyBoxPosition]);
+        swabBoxs(box[i], box[1]);
       } else if (
-        embtyBoxPosition === 0 ||
-        embtyBoxPosition === 2 ||
-        embtyBoxPosition === 6 ||
-        embtyBoxPosition === 8
+        (position === 0 || position === 6) &&
+        (embtyBoxPosition === 0 || embtyBoxPosition === 6)
       ) {
-        if (
-          (position === 0 || position === 2) &&
-          (embtyBoxPosition === 0 || embtyBoxPosition === 2)
-        ) {
-          swabBoxs(box[1], box[embtyBoxPosition]);
-          swabBoxs(box[i], box[1]);
-        } else if (
-          (position === 0 || position === 6) &&
-          (embtyBoxPosition === 0 || embtyBoxPosition === 6)
-        ) {
-          swabBoxs(box[3], box[embtyBoxPosition]);
-          swabBoxs(box[i], box[3]);
-        } else if (
-          (position === 6 || position === 8) &&
-          (embtyBoxPosition === 6 || embtyBoxPosition === 8)
-        ) {
-          swabBoxs(box[7], box[embtyBoxPosition]);
-          swabBoxs(box[i], box[7]);
-        } else if (
-          (position === 2 || position === 8) &&
-          (embtyBoxPosition === 2 || embtyBoxPosition === 8)
-        ) {
-          swabBoxs(box[5], box[embtyBoxPosition]);
-          swabBoxs(box[i], box[5]);
-        }
+        swabBoxs(box[3], box[embtyBoxPosition]);
+        swabBoxs(box[i], box[3]);
+      } else if (
+        (position === 6 || position === 8) &&
+        (embtyBoxPosition === 6 || embtyBoxPosition === 8)
+      ) {
+        swabBoxs(box[7], box[embtyBoxPosition]);
+        swabBoxs(box[i], box[7]);
+      } else if (
+        (position === 2 || position === 8) &&
+        (embtyBoxPosition === 2 || embtyBoxPosition === 8)
+      ) {
+        swabBoxs(box[5], box[embtyBoxPosition]);
+        swabBoxs(box[i], box[5]);
       }
     }
+  }
 
-    for (let j = 0; j < box.length; j++) {
-      if (box[j].id === "empty") box[j].textContent = "";
-      else box[j].textContent = box[j].id;
-    }
+  for (let j = 0; j < box.length; j++) {
+    if (box[j].id === "empty") box[j].textContent = "";
+    else box[j].textContent = box[j].id;
+  }
 
-    for (let j = 0; j < box.length; j++) {
-      if (getIndexGenerally(box[j]) === +box[j].id - 1) {
-        box[j].style.color = "gold";
-        box[j].style.textShadow = "0px 0px 5px gold";
-      } else {
-        box[j].style.color = "black";
-        box[j].style.textShadow = "0px 0px 15px black";
-      }
+  for (let j = 0; j < box.length; j++) {
+    if (getIndexGenerally(box[j]) === +box[j].id - 1) {
+      box[j].style.color = "gold";
+      box[j].style.textShadow = "0px 0px 5px gold";
+    } else {
+      box[j].style.color = "black";
+      box[j].style.textShadow = "0px 0px 15px black";
     }
+  }
 
-    if (gameFinished()) {
-      document.querySelector(".finished").style.display = "block";
-      document.querySelector(".Congratulations").style.display = "block";
-      document.querySelector(".Congratulations").textContent = "Well done...";
-    }
-  };
+  if (gameFinished()) {
+    document.querySelector(".finished").style.display = "block";
+    document.querySelector(".Congratulations").style.display = "block";
+    document.querySelector(".Congratulations").textContent = "Well done...";
+  }
 }
 
 //end number game
@@ -648,17 +674,11 @@ let game2048Area = document.querySelector("#game2048items");
 game2048Area.addEventListener("touchstart", touchStart);
 game2048Area.addEventListener("touchend", touchEnd);
 game2048Area.addEventListener("touchmove", touchMove);
-game2048Area.addEventListener("touchmove", (event) => {
-  event.preventDefault();
-});
 
 //mouse
 game2048Area.addEventListener("mousedown", touchStart);
 game2048Area.addEventListener("mouseup", touchEnd);
 game2048Area.addEventListener("mousemove", touchMove);
-game2048Area.addEventListener("mousemove", (event) => {
-  event.preventDefault();
-});
 
 function touchStart(event) {
   // console.log("start");
