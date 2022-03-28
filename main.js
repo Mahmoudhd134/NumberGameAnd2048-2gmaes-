@@ -205,7 +205,6 @@ btn2.onclick = function () {
   document.querySelector("#game2048").style.height = "470px";
   document.getElementById("game2048items").style.height = "340px";
   document.querySelector("#game2048items").style.display = "grid";
-  document.querySelector(".directions").style.display = "grid";
   document.getElementById("gameover2048").style.display = "none";
   box2048[0].style.borderTopLeftRadius = "30px";
   box2048[3].style.borderTopRightRadius = "30px";
@@ -476,7 +475,7 @@ function equalTwoObjects(ob1, ob2) {
   }
 }
 
-document.querySelector(".north").onclick = function () {
+function moveTop() {
   fillObject(ob1);
   for (
     let j = indexs["top"]["start"][0] + 4;
@@ -513,8 +512,8 @@ document.querySelector(".north").onclick = function () {
       document.getElementById("gameover2048").style.display = "flex";
   }
   changeBackgrounColor2048();
-};
-document.querySelector(".east").onclick = function () {
+}
+function moveRight() {
   fillObject(ob1);
   for (
     let j = indexs["right"]["start"][0] - 1;
@@ -550,8 +549,8 @@ document.querySelector(".east").onclick = function () {
       document.getElementById("gameover2048").style.display = "flex";
   }
   changeBackgrounColor2048();
-};
-document.querySelector(".south").onclick = function () {
+}
+function moveBottom() {
   fillObject(ob1);
   for (
     let j = indexs["bottom"]["start"][3] - 4;
@@ -587,8 +586,8 @@ document.querySelector(".south").onclick = function () {
       document.getElementById("gameover2048").style.display = "flex";
   }
   changeBackgrounColor2048();
-};
-document.querySelector(".west").onclick = function () {
+}
+function moveLeft() {
   fillObject(ob1);
   for (
     let j = indexs["left"]["start"][0] + 1;
@@ -624,7 +623,7 @@ document.querySelector(".west").onclick = function () {
       document.getElementById("gameover2048").style.display = "flex";
   }
   changeBackgrounColor2048();
-};
+}
 
 let btn3 = document.getElementById("returnstep2048");
 btn3.onclick = function () {
@@ -634,5 +633,88 @@ btn3.onclick = function () {
       document.getElementById("gameover2048").style.display = "none";
   }
 };
+
+let startPositionX = 0,
+  endPositionX = 0,
+  startPositionY = 0,
+  endPositionY = 0,
+  movedX = 0,
+  movedY = 0;
+isMoving = false;
+
+let game2048Area = document.querySelector("#game2048items");
+
+//Touch
+game2048Area.addEventListener("touchstart", touchStart);
+game2048Area.addEventListener("touchend", touchEnd);
+game2048Area.addEventListener("touchmove", touchMove);
+game2048Area.addEventListener("touchmove", (event) => {
+  event.preventDefault();
+});
+
+//mouse
+game2048Area.addEventListener("mousedown", touchStart);
+game2048Area.addEventListener("mouseup", touchEnd);
+game2048Area.addEventListener("mousemove", touchMove);
+game2048Area.addEventListener("mousemove", (event) => {
+  event.preventDefault();
+});
+
+function touchStart(event) {
+  // console.log("start");
+  setStartPosition(event);
+  isMoving = true;
+}
+function touchEnd(event) {
+  // console.log("end");
+  setEndPosition(event);
+  isMoving = false;
+}
+function touchMove(event) {
+  if (isMoving) {
+    setEndPosition(event);
+    makeAction();
+    // console.log(movedX, movedY);
+  }
+}
+function setStartPosition(event) {
+  if (event.type.includes("mouse")) {
+    startPositionX = event.pageX;
+    startPositionY = event.pageY;
+  } else {
+    startPositionX = event.touches[0].clientX;
+    startPositionY = event.touches[0].clientY;
+  }
+}
+function setEndPosition(event) {
+  if (isMoving) {
+    if (event.type.includes("mouse")) {
+      endPositionX = event.pageX;
+      endPositionY = event.pageY;
+    } else {
+      endPositionX = event.touches[0].clientX;
+      endPositionY = event.touches[0].clientY;
+    }
+    movedX = endPositionX - startPositionX;
+    movedY = endPositionY - startPositionY;
+  }
+}
+function makeAction() {
+  if (movedX > 30) {
+    moveRight();
+    touchEnd(event);
+  } else if (movedX < -30) {
+    moveLeft();
+    touchEnd(event);
+  }
+
+  if (movedY < -30) {
+    moveTop();
+    touchEnd(event);
+  } else if (movedY > 30) {
+    moveBottom();
+    touchEnd(event);
+  }
+}
 
 //end 2048 game
